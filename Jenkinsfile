@@ -42,5 +42,46 @@ stages{
                    sh 'aws s3 sync s3://odinbinaries-63moons/UAT/config/ . '
                    sh 'aws s3 cp s3://odinbinaries-63moons/UAT/services/${BRANCHDEPLOY}node .'
                 }}
-            }}}
+            }
+
+ stage('Build'){
+   steps{
+   echo 'building docker images'
+   script {
+          sh """ sed -i -e 's/auth/${BRANCHDEPLOY}/g' Dockerfile """
+          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+        }
+   }
+   }
+  stage('Logging into AWS ECR') {
+      steps {
+                script {
+                sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS  --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
+                }
+
+            }
+        }
+
+ stage('Pushing to ECR') {
+     steps{
+         script {
+               sh """docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG"""
+               sh """docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/uat/${IMAGE_REPO_NAME}:${IMAGE_TAG}"""
+         }
+        }
+     }
+
+
+  }
+ stage('Run') {
+            steps {
+                sh 'docker stop $(docker ps -a -q)'
+                sh 'docker rm $(docker ps -a -q)'
+                sh 'docker run -d -p 80:9701 --name ${IMAGE_REPO_NAME}  "${IMAGE_REPO_NAME}:${IMAGE_TAG}"'
+            }
+        }
+
+
+
+}}
 
