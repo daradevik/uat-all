@@ -9,8 +9,9 @@ environment {
         IMAGE_TAG="v1"
         REPOSITORY_URI = "148338820041.dkr.ecr.ap-south-1.amazonaws.com/uat/uat-auth"
         branch1 = "auth"
-        branch2 = "tran"
+        branch2 = "transactional"
         branch3 = "cache"
+      
     }
 
 
