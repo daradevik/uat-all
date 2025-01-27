@@ -72,7 +72,7 @@ stages{
      }
 
 
-  }
+  
  stage('Run') {
             steps {
                 sh 'docker stop $(docker ps -a -q)'
