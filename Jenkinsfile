@@ -5,7 +5,7 @@ agent { label 'dara-node' }
 environment {
         AWS_ACCOUNT_ID="148338820041"
         AWS_DEFAULT_REGION="ap-south-1"
-        IMAGE_REPO_NAME="uat-${BRANCHDEPLOY}"
+        IMAGE_REPO_NAME="uat"
         IMAGE_TAG="v1"
         REPOSITORY_URI = "148338820041.dkr.ecr.ap-south-1.amazonaws.com/uat/uat-auth"
         branch1 = "auth"
@@ -49,7 +49,7 @@ stages{
    echo 'building docker images'
    script {
           sh """ sed -i -e 's/auth/${BRANCHDEPLOY}/g' Dockerfile """
-          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+          dockerImage = docker.build "${IMAGE_REPO_NAME}${BRANCHDEPLOY}:${IMAGE_TAG}"
         }
    }
    }
