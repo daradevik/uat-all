@@ -7,7 +7,7 @@ environment {
         AWS_DEFAULT_REGION="ap-south-1"
         IMAGE_REPO_NAME="uat"
         IMAGE_TAG="v1"
-        REPOSITORY_URI = "148338820041.dkr.ecr.ap-south-1.amazonaws.com/uat/uat-auth"
+        REPOSITORY_URI = "148338820041.dkr.ecr.ap-south-1.amazonaws.com/uat/uat"
         branch1 = "auth"
         branch2 = "transactional"
         branch3 = "cache"
@@ -65,8 +65,8 @@ stages{
  stage('Pushing to ECR') {
      steps{
          script {
-               sh """docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG"""
-               sh """docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/uat/${IMAGE_REPO_NAME}:${IMAGE_TAG}"""
+               sh """docker tag ${IMAGE_REPO_NAME}${BRANCHDEPLOY}:${IMAGE_TAG} ${REPOSITORY_URI}_${BRANCHDEPLOY}:$IMAGE_TAG"""
+               sh """docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/uat/${IMAGE_REPO_NAME}_${BRANCHDEPLOY}:${IMAGE_TAG}"""
          }
         }
      }
