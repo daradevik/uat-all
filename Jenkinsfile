@@ -66,7 +66,7 @@ stages{
      steps{
          script {
                sh """docker tag ${IMAGE_REPO_NAME}${BRANCHDEPLOY}:${IMAGE_TAG} ${REPOSITORY_URI}_${BRANCHDEPLOY}:$IMAGE_TAG"""
-               sh """docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/uat/${IMAGE_REPO_NAME}_${BRANCHDEPLOY}:${IMAGE_TAG}"""
+               sh """docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/uat/${IMAGE_REPO_NAME}/${BRANCHDEPLOY}:${IMAGE_TAG}"""
          }
         }
      }
