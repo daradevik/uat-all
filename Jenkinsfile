@@ -77,7 +77,7 @@ stages{
             steps {
                 sh 'docker stop $(docker ps -a -q)'
                 sh 'docker rm $(docker ps -a -q)'
-                sh 'docker run -d -p 80:9701 --name ${IMAGE_REPO_NAME}  "${IMAGE_REPO_NAME}:${IMAGE_TAG}"'
+                sh 'docker run -d -p 80:9701 --name ${IMAGE_REPO_NAME}  "${REPOSITORY_URI}/${BRANCHDEPLOY}:$IMAGE_TAG"'
             }
         }
 
